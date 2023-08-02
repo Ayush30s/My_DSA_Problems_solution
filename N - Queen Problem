@@ -1,0 +1,62 @@
+    
+bool isSafe(vector<vector<int>> board , int n , int row , int col) {
+    //check kro jis row me tum jane wale ho usme phle se koi queen tio nhi hi! (col ghatao)
+    int i= row;
+    int j= col;
+    while(j >= 0) {
+        if(board[i][j] == 0) {
+            return false;
+        }
+        j--;
+    }
+
+    //check kro upper left diagonal ko (row ghatao col ghatao)
+    int i2= row;
+    int j2= col;
+    while(i2 >=0 && j2 >=0) {
+        if(board[i2][j2] == 0) {
+            return false;
+        }
+        i2--;
+        j2--;
+    }
+
+    //check kro bottom left diagonal ko (row badhao col ghatao) 
+    int i3= row;
+    int j3= col;
+    while(i3 < n && j3 >= 0) {
+        if(board[i3][j3] == 0) {
+            return false;
+        }
+        i3++;
+        j3--;
+    }
+
+    //mi jaha khada hu us position pe koi queen attack nhi kr rhi hi
+    return true;
+}
+
+    void solve(vector<vector<int>>& board, int n, vector<int> pos, int col, vector<vector<int>>& ans) {
+        if(col >= n) {
+            ans.push_back(pos);
+            return;
+        }
+        
+        for(int row =0 ; row < n; row++) {
+            if(isSafe(board,n,row,col)) {
+                board[row][col] = 0;
+                pos.push_back(row+1);
+                solve(board,n,pos,col+1,ans);
+                pos.pop_back();
+                board[row][col] = 1;
+            }
+        }
+    }
+    vector<vector<int>> nQueen(int n) {
+        vector<vector<int>> board(n, vector<int> (n,1));
+        vector<vector<int>> ans;
+        vector<int> pos;
+        solve(board,n,pos,0,ans);
+        return ans;
+    }
+};
