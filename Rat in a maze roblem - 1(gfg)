@@ -1,0 +1,54 @@
+class Solution{
+    public:
+    
+    int dx[4] = {1 , -1 , 0 , 0};                                 // chnage in value of row in all the 4 directions
+    int dy[4] = {0 , 0 , 1 , -1};                                 // change in value of col in all the 4 directions
+    char ch[4] = {'D' , 'U' , 'R' , 'L'};                         // charcaters to represent the directions we moved toward
+
+    // 1- if the x and y which are our current coordinates of the rat are within the range of the n * n grid
+    // 2- if the 2-d vector that is marking visit of rat in a given cell of the grid is not visited for the currnt ongoing path
+    // 3- if the 2-d vector representing the maze , for the given grid is 1 , means we can move to it
+    //if all the above 3 - condition are true we say that the position the rat is willing to take is safe else not
+        
+    bool isSafe(int x , int y , int n , vector<vector<bool>>& visit , vector<vector<int>> &m) {
+      // if((x >= 0 && x < n) && (y >= 0 && y < n) && visit[x][y] == false && m[x][y] == 1) {
+            return true;
+        }else{
+            return false; 
+        }
+    }
+    void ratMaze(vector<vector<int>> m, vector<vector<bool>>& visit ,int n , int x , int y , string ans , vector<string>& res) {
+        //if the index of x and y of maze is equals to the last grid of n * n 
+        //it means we reached to the desired index it means we got one of the path
+        //now we push that path in ans
+        //now we return back to find a new possible path
+        //base case
+        if(x == n-1 && y == n-1) {
+            res.push_back(ans);
+            return;
+        }
+        
+        for(int i = 0; i < 4 ;i++) {
+            int newx = dx[i] + x;
+            int newy = dy[i] + y;
+            char ss = ch[i];
+            if(isSafe(newx,newy,n,visit,m)) {
+                visit[newx][newy] = true;
+                ratMaze(m,visit,n,newx,newy,ans+ss,res);
+                visit[newx][newy] = false;
+            }
+        }
+    }
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        // Your code goes here
+        vector<vector<bool> > visit(n , vector<bool>(n,false)); 
+        vector<string> res;
+        string s = "";
+        if(m[0][0] == 0) {
+            return res;
+        } 
+        visit[0][0] = true;
+        ratMaze(m,visit, n , 0 , 0,s,res);
+        return res;
+    }
+};
