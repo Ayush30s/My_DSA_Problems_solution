@@ -1,0 +1,36 @@
+class Solution {
+public:
+// this is the recursive solution with a important touch of backtracking
+// in the Solve the method We have passed three arguments nums That is given in the question And we have passed
+// And we have passed On ans vector of vectors to store all of the permutations of nums and an index
+// and an index to Iterate over nums
+
+// In the base case, our condition is when we go out of the bound of nuns,
+// we store that permutation of nums at that position. And then we go return back to form different permutations possible
+// Now we are iterating from the index passed in the argument to the nums.size(), And in that loop, we are swapping the index,
+// which is passed in the argument and the index the loop starts with since each time the loop is starting with the index passed.
+// So we are firstly swapping every element to itself And when we reach the base case and when returned back to the function that
+// called the current function, then our for loop that was iterated only once bcoz of the next call for solve fucntion will move 
+// forward and we form a next pair to swap elements And this will form a 
+// new permutation And we go and so on till we reach the invalid index
+                                                        
+
+    void solve(vector<int>& nums , vector<vector<int>>& ans , int index) {
+        //base case
+        if(index >= nums.size()) {
+            ans.push_back(nums);
+            return;
+        }
+
+        for(int j = index ; j < nums.size() ;j++) {
+            swap(nums[j],nums[index]);
+            solve(nums,ans,index+1);
+            swap(nums[j],nums[index]);//backtracking
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        solve(nums,ans,0);
+        return ans;
+    }
+};
