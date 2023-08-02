@@ -1,0 +1,28 @@
+class Solution {
+public:
+// create two pointers one for string s and one for string t
+// initialize i with 0 and j with i so that each time we done with finding same character in both the string we do not start
+// with starting of string t rather than we start with the index after the index of the charcater which we have already found
+// now iterate through string t and if we get same elements in s and t we increment both i and j to find the next element of s 
+// in t but if we get two different characters for i and j we just keep stand on stringg s current character and keep j moving
+// untill we get same character of s on which we were staniding
+// after itterating whole string t if the i pointer of s recahed out of bound it means all 
+// the characters of s are present in t in the same oreder
+
+    bool isSubsequence(string s, string t) {
+        int i = 0;
+        int j = i;
+        while(j < t.size()) {
+            if(s[i] == t[j]) {
+                i++;
+                j++;
+            }else{
+                j++;
+            }
+        }
+        if(i == s.size()) {
+            return true;
+        }
+        return false;
+    }
+};
