@@ -1,0 +1,43 @@
+class Solution {
+public:
+    
+    void solve(string digits, int index, string str, vector<string>& ans , map<int,string> mp) {
+        //base case
+
+        //when we are done with all the string elements we store the combination formed so far and return back to find other combinations
+        if(index == digits.size()) {
+            ans.push_back(str);//
+            return;
+        }
+        int key = digits[index] - '0';                                       // convert the string element pointed by index to corresponding number  to access the corressponding string in map
+        string curr_str = mp[key];//storing the string corressponding to the above key
+
+        //iterate over the length of curr_str to form each combination of a number with each character of the other numbers
+        for(int i = 0 ; i < curr_str.size(); i++) {
+            str.push_back(curr_str[i]);
+            solve(digits,index+1,str,ans,mp);//each time we call the new string's char and start ittertaing from 0 to make all the combinations
+            str.pop_back();// backtracking when we go back we pop back the char we have stored so, not to repeate the already generated combinations and also to create new combinations
+        }
+        
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits.size() == 0) {                                
+            return {};
+        }
+        //create a map of int to string to store corresponding string to given numbers to iterate on a particular string
+        map<int , string> mp;
+        mp[2] = "abc";
+        mp[3] = "def";
+        mp[4] = "ghi";
+        mp[5] = "jkl";
+        mp[6] = "mno";
+        mp[7] = "pqrs";
+        mp[8] = "tuv";
+        mp[9] = "wxyz";
+                                                 
+        string str = "";                                             // to store current going on combinations
+        vector<string> ans                                           // ans to store all the possible combinations formed above
+        solve(digits,0,str,ans,mp);
+        return ans;
+    }
+};
