@@ -1,0 +1,23 @@
+class Solution
+{
+    public:
+    int countFractions(int n, int numerator[], int denominator[])
+    {
+        map<pair<int,int>, int> freq;
+        int ans = 0;
+        
+        for(int i = 0; i < n; i++){
+            int gcd = __gcd(numerator[i], denominator[i]);
+            numerator[i] /= gcd;
+            denominator[i] /= gcd;
+            
+            int x = numerator[i];
+            int y = denominator[i];
+            int z = y - x;
+            
+            if(freq.count({z, y}))
+                ans += freq[{z, y}];
+            ++freq[{numerator[i], denominator[i]}];
+        }
+        return ans;
+    }
