@@ -1,0 +1,58 @@
+In this problem, as we have to find the minimum difference pairs which are in P numbers So what we are doing is we are using binary 
+search. By using we start our start pointer with 0 and start our end pointer with the maximum difference possible Now we are 
+calculating mid the mid actually points the minimum difference we can get for P number of pairs It is actually predicting Can we 
+get a difference of mid So we cheque in the is possible function that mid can be a minimum difference for P number of pairs In the
+possible function. We have initialised a pre which checks whether the previous pair is used or not, and a count which counts the
+number of pairs we get for the given mid We are iterating over the nums and checking if our previous is one. Means the previous 
+pair is used, then we can not use it and make pre 0 and continue the current iteration Next we are checking if the difference between
+the consecutive numbers or the pairs is less than equal to mid. It means the pair is suitable for the given midor we have a difference
+less than equal to mid than we make the pre 1. It means that the current payer is used and increment the count. It means, for a given 
+mid, this pair is a suitable and hence we are increasing the count Now, in each iteration, we are checking whether the count becomes 
+greater than equal to P, because we need at least P payers that are suitable for a given mid so if our count of payer becomes greater 
+than equal to P, we return true it means we get at least P pair with a mid difference And if we not get count greater than equal to P,
+we return false Now in the minimise max function If the current mid is possible for given number of pairs, then we store it as answer
+because we have predicted that mid may be the answer. So given mid may be tha naswer and we can get a possible more less answer. 
+Hence we decrease our search space towards the left so that we can get more minimum value than mid And if is possible fucntion , is
+showing false that for the middle we have predicted is cannot be the minimum So we increase our search space toward the right and checks
+for a greater possible minimum value And when our start becomes equal to or greater than then we return the answer that we have stored 
+in ans and return ans
+
+class Solution {
+public:
+    bool isPossible(int mid , vector<int>& nums , int p) {
+        int pre = 0;
+        int count = 0;
+        for(int i = 1 ; i < nums.size() ;i++) {
+            if(pre == 1) {
+                pre = 0;
+                continue;
+            } 
+            if(nums[i]-nums[i-1] <= mid) {
+                pre = 1;
+                count++;
+            }
+            if(count >= p) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    int minimizeMax(vector<int>& nums, int p) {
+        int n = nums.size();
+        sort(nums.begin(),nums.end());
+        int start = 0;
+        int ans = 0;
+        int end = nums[n-1]-nums[0];
+        while(start <= end) {
+            int mid = start + (end - start)/2;
+            if(isPossible(mid,nums,p)) {
+                ans = mid;
+                end = mid - 1;
+            }else{
+                start = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
