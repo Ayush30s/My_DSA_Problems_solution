@@ -1,0 +1,25 @@
+long long int largestPrimeFactor(int N){
+        // code here
+        
+        int ans = 0;
+        
+        for(int i = 2 ; i * i <= N ;i++) {
+            
+            if(N % i == 0) {// if n is divisible by the current
+            // prime then remove all the occourence of 
+            // that prime number using below loop
+            // by doing this we reach the largest prime
+            // number at the last because we are going 
+            // from smaller to largest so in the last N is
+            // actually thatlasrgest prime number we are searching for
+                
+                while(N % i == 0) {
+                    N = N / i;
+                    ans = i;
+                }
+            }
+        }
+        
+        ans = max(ans,N);
+        return ans;
+    }
