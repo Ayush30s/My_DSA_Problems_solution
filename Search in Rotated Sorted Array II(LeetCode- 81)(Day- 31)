@@ -1,0 +1,43 @@
+class Solution {
+public:
+//we look for the sorted side and check if the target is on that side or not if not we movw to the left part and again 
+//try to find the sorted part in that part and keep doing untill the condition of while loop gets false or we get the target
+
+    bool search(vector<int>& arr, int target) {
+        int start = 0;
+        int end = arr.size()-1;
+
+        while(start <= end) {
+
+            int mid = start + (end - start)/2;
+            if(arr[mid] == target) {
+                return true;
+            }
+            if(arr[start] == arr[mid] & arr[mid] == arr[end]) {// if the last and mid and firts are same in that case we
+            //cant predict on which side the traget is lying so we avoid that itteration in which the given condition is satisfied
+
+                start = start + 1;
+                end = end - 1;
+                continue;
+            } 
+              
+            if(arr[mid] >= arr[start]){// left part is sorted  
+
+                if(target >= arr[start] &&  target <= arr[mid]) {//traget lies in the left part
+                    end = mid - 1;
+                }else{//traget lies in right part
+                    start = mid + 1;
+                }
+
+            }else{//right part is sorted
+
+                if(target >= arr[mid] && target <= arr[end]) {//target lies in right part
+                    start = mid + 1;
+                }else{//target lies in left part
+                    end = mid - 1;
+                }
+            }
+        }
+        return false;
+    }
+};
