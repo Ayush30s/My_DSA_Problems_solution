@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isPossible(int n, int ithGarden, vector<vector<int>>& paths, vector<int>& FloInGar, int flo,map<int,vector<int>>& mp) {
+        vector<int> path = mp[ithGarden+1];
+        for(int i =0 ; i < path.size() ; i++) {
+            int garden = path[i];
+            if(FloInGar[garden-1] == flo) {
+            /* checking if the flower we are going to put in current garden is present or not in 
+              the garden that are connected to the currnt garden in case yes return false */
+                return false;
+            }
+        }
+        return true;
+    }
+    bool solve(int n, int ithGarden, vector<vector<int>>& paths, vector<int>& FloInGar, map<int,vector<int>>& mp) {
+        //base case
+        if(ithGarden == n) {
+            return true;
+        }
+        for(int i = 1; i <= 4 ;i++) {
+            if(isPossible(n, ithGarden, paths, FloInGar,i,mp)) {
+
+                /* if it is possible to plant the ith plat in the given garden then we store the given plant for the given
+                    garden and call for rest of the gardensif we get true from future call till our current call it means we ahve 
+                    put all the flowers in the garden corrctly and returning again true for this current call that was waiting for 
+                    the ans (t/f) from future call at the last we reach base condition without getting no false , it means we have
+                    succesfully completed the task for the whole garden*/
+
+                FloInGar[ithGarden] = i;
+                if(solve(n,ithGarden+1,paths,FloInGar,mp)) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+        map<int,  vector<int>> mp;
+
+        for(int i =0 ; i < paths.size() ;i++) {
+        /* map to store all the gardens that are connected to the other gardens*/
+
+            mp[paths[i][0]].push_back(paths[i][1]);
+            mp[paths[i][1]].push_back(paths[i][0]);
+        }
+        vector<int> FloInGar(n,0);
+        solve(n,0,paths,FloInGar,mp);
+        return FloInGar;
+    }
+};
