@@ -1,0 +1,35 @@
+we chechk if the element of the two string pointed by the current pos of the pointer is true then we add 1 to the 
+answer do a recursive call for the rest of the part in case we dont get equal element then we have two possibilities 
+1. we get an answer by incrementing the 1st string's pointer and keeping j static while we agian get the same elements and 
+2. we get an answer for longest subsequence from that part by incremebting j and keeping i static. In both the answers we 
+pick the maximum one bcoz we wanted the largest subsequence 
+
+we are doing memoization so that we don't waste cpu's time in doing the opertaion 
+and producing same results we have already produced to optimize the code
+
+     int solve(string& s1 , string& s2 , int i , int j, vector<vector<int>>& dp) {
+        //base case
+        if(i == s1.length() || j == s2.length()) {
+            return 0;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        
+        int ans  = 0;
+        if(s1[i] == s2[j]) {
+            ans = 1 + solve(s1,s2,i+1,j+1,dp);
+        }else{
+            ans = max(solve(s1,s2,i+1,j,dp) , solve(s1,s2,i,j+1,dp));
+        }
+        return dp[i][j] = ans;
+    }
+
+    //Function to find the length of longest common subsequence in two strings.
+    int lcs(int n, int m, string s1, string s2)
+    {
+        // your code here
+        vector<vector<int>> dp(s1.length(),vector<int>(s2.length(),-1));
+        int ans = solve(s1,s2,0,0,dp);
+        return ans;
+    }
