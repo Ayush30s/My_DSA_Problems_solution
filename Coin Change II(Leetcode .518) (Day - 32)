@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int solve(int amount, int index, vector<int>& coins, vector<vector<int>>& dp) {
+        //base case
+        if(amount == 0) {// if the amount become 0 it means we have 1 of yhe combinations to from amount so rerturn 2
+            return 1;
+        }
+        if(amount < 0 || index >= coins.size()) {// if the amount become -ve it means we just subtracyed more than required or
+                                                  //the numbers we have taken their sum is greater than amount and the abvious
+                                                  //case we need to care of range
+            return 0;
+        }
+        if (dp[index][amount] != -1) {// we have already result for the given index and amount so need to do operatiion agin
+                                      // for that values just retuen ans corressponding to that value
+            return dp[index][amount]; //memoized result
+        }
+
+        int include = solve(amount-coins[index],index,coins,dp); // call when the coin is take to get the sum equal to amount
+        int exclude = solve(amount,index+1,coins,dp); // ignore and check another coin using above call 
+                                                      (this call is actually to skip a coins if we cant use it to produce sum =2 amount)
+        dp[index][amount] = include + exclude; //add the result and store in dp so that if in future we get the
+                                               //same ans we just return it and no need to do same opertaion again
+
+        return dp[index][amount];
+    }
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>> dp(coins.size(), vector<int>(amount + 1, -1));
+        int c = solve(amount,0,coins,dp);
+        return c;
+    }
+};
