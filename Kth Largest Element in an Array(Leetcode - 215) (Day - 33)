@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        //intution based on count sort
+        map<int,int> mp;//map to count the occourence of each element in the nums 
+        for(auto i : nums) {
+            mp[i]++;
+        }
+        auto it = mp.rbegin();//we are iterating in reverse order
+        while(it != mp.rend()) {
+            k = (k - it->second);                                                   //we are deleting each time the occourence of the current element this
+                                                                                    //will tell us how many elements are there before the kth largest element
+                                                                                    
+            if(k <= 0) {                                                            //when k gets 0 it means we have skipped all the elemnts less
+                                                                                    //greater than kth largest element and we found that element 
+                                                                                    //in case if k -s -ve it means we have duplicates of kth largest 
+                                                                                    //elemnt thats why we are able to delete only the left k value from its
+                                                                                    //all occourences
+                return it->first;
+            }
+            ++it;
+        }
+        return -1;
+    }
+};
