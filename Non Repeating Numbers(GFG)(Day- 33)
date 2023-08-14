@@ -1,0 +1,29 @@
+vector<int> singleNumber(vector<int> nums) 
+    {
+        // Code here.
+        
+        int xans = 0;
+        for(int i =0 ; i < nums.size() ;i++) {
+            xans = xans ^ nums[i];
+        }
+            //xans - to partition both numbers from xans
+            //x & ~(x-1) => 000100
+            xans = xans & ~(xans-1);
+            //seperating both numbers
+        
+            int val1 = 0;
+            int val2 = 0;
+            for(int i =0 ; i < nums.size() ;i++) {
+                if(xans & nums[i]) {
+                    val1 ^= nums[i];
+                }else{
+                    val2 ^= nums[i];
+                }
+            }
+            vector<int> res;
+            res.push_back(val1);
+            res.push_back(val2);
+            sort(res.begin(),res.end());
+            return res;
+        
+    }
