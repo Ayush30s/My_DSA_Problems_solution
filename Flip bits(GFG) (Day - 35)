@@ -1,0 +1,47 @@
+class Solution{
+    public:
+    int maxOnes(int arr[], int n)
+    {
+        // Your code goes here
+        int count = 0;
+        for(int i =0 ; i < n ;i++) {
+            if(arr[i] == 0) {
+                arr[i] = 1;     //if 0 convert it it one
+            }
+            else{
+                count++;        // count number of 1's
+                arr[i] = -1;    
+                // if 1 convert it into -1 
+                // because we want to ignore 1's that 
+                // are coming in our way it is just to
+                // make us undersytand that when we calculate
+                // the max sum subarray which will tell us
+                // the maximum length subarray of max  we
+                // can ignore them.
+            }
+        }
+        
+        //apply kadanes algorithm 
+        int max_so_far = 0;
+        int max_ans = 0;
+        
+        for(int i =0; i < n ;i++) {
+            max_so_far += arr[i];
+            
+            if(max_so_far > max_ans) 
+                max_ans = max_so_far;
+            
+            else if(max_so_far < 0) 
+                max_so_far = 0;
+        }
+        return max_ans + count; // adding count bcoz we
+        // have used -1 at place of 1 becoz we just want 
+        // to sign that at -1 there was 1 but in max sum 
+        // subarray calcukation -1 decremented max_sum_subarra
+        // by count values so we need to gain neutralie 
+        // it by adding it and also there are some extra
+        // 1's that we have discarded and we need to again
+        // include them in ans
+        
+    }
+};
