@@ -1,0 +1,34 @@
+class Solution {
+public:
+  # In the first approch i  started by looking for all the substrings having length less than or 
+  # equal to half of the length of s string bcoz it is the possible valid length of a substring 
+  # that can be repeated to get string s. know after getting the possible len of the substring we
+  # concatenate that substring for reoaete number of times after concatenatiion we check if the
+  # concatenated string become equal to the string s we return true . after doing this operation 
+  # till length 1 we return false.
+
+    bool repeatedSubstringPattern(string s) {
+        # first approch
+        int len = s.length();
+        for(int i = len / 2 ; i >= 1 ; i--) {
+            if(len % i == 0) {
+                int repeate = len / i;
+                string sb = s.substr(0 , i);
+                string ans = "";
+                for(int j = 0 ; j < repeate ; j++) {
+                    ans = ans + sb;
+                }
+                if(ans == s) return true;
+            }
+        }
+        return false;
+
+      # in the second approch we just added the string s twice and removed the starting and ending index
+      # from the newstring formed and check if the string s is present in the manipulated string.
+
+        # second approch
+        string newstring = s + s;
+        string manipulatedString = newstring.substr(1,newstring.size()-2);
+        return manipulatedString.find(s) != string::npos;
+    }
+};
