@@ -1,0 +1,38 @@
+class Solution {
+public:
+
+    // This is a simple recursive solution in which we are finding all the possible solutions, and we are checking which substring is not present in the dictionary. 
+    // And among all those substrings which are not present in the dictionary. We are summing up the size of the minimum characters that are left over while searching for substrings
+    
+    
+    int solve(string& s ,unordered_map<string ,int>& mp, vector<int>& dp, int index ) {
+        //base case
+        if(index >= s.size()) return 0;
+        if(dp[index] != -1) {
+            return dp[index];
+        }
+        int ans = s.size();
+        string str = "";
+        for(int i = index ; i < s.size() ;i++) {
+            str.push_back(s[i]);
+            int count = 0;
+            if(mp.count(str) == 0) {
+                count = str.size();
+            }else{
+                count = 0;
+            }
+            count += solve(s,mp,dp,i+1);
+            ans = min(ans,count);
+        }
+        return dp[index] = ans;
+    }
+    int minExtraChar(string s, vector<string>& dictionary) {
+        
+        unordered_map<string ,int> mp;
+        for(auto& i : dictionary) mp[i]++;
+        vector<int> dp(s.size(),-1);
+
+        int ans =solve(s,mp,dp,0);
+        return ans;
+    }
+};
