@@ -1,0 +1,54 @@
+to count the number of ones for a arnage of number 0 to n if we have found  number of ones in a number lying inthe range of 0 to 1
+then the number of ones in its multiple such the we get the current number by multiplyng it by 2 to the previus number in which we
+have found numner of 1's , will be the same bcoz the new number following the above condition is obtained by just left shifting that
+previous number ob=nce so only difference in thier bits represntation is that both conatins same no. of nits with same realative pos
+with just shifted once towards left this is true for both even and odd type number the only diff in odd that we have to add a sinle 
+bit in the odd umbers representation bcoz when we divide an odd number we get a number which on mutliplying by 2 produces an even numb 
+unless that same odd num which was divide so one 1 bit is less to balance that bit we ahve to add an extra bit by our side thus 
+increasing the count of 1 bits for an odd number by 1
+
+ex - n = 6(even)
+​
+6(0 1 0 1)   --> left shift 6  --> 3(1 0 1 0) both have same number of 1 bits
+so,
+        number of bits in n = number of bits in n/2
+        
+ex-n = 15(odd)
+15(1 1 1 1)  --> left shift -->7(0 1 1 1) we get 7 in case of int which we also get when we divide 14 by 2 if n was 14 thw abie reln for even will hold true but for odd we just need to add extra 1
+so,
+        number of bits in n = number of bits in n/2 + 1
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Brute - force (cause TLE)
+    int onebits(int n) {
+        int count = 0;
+        while(n > 0) {
+            cout << n << endl;
+            if(n & 1) {
+                count++;
+            }
+            n = n >> 1;
+        }
+        return count;
+    }
+    vector<int> countBits(int n) {
+        vector<int> ans;
+        for(int i = 0; i <= n ;i++) {
+            int val = onebits(i);
+            ans.push_back(val);
+        }
+        return ans;
+    }
+
+    //optimised
+    vector<int> countBits(int n) {
+        vector<int> ans(n+1,0);
+        for(int i = 0; i <= n ;i++) {
+            if(i%2 == 0)
+                ans[i] = ans[i/2];
+            else
+                ans[i] = ans[i/2] + 1;
+        }
+        return ans;
+    }
