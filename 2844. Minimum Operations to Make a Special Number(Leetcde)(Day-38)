@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+As we want to delete minimum number of elements. So we start from the right hand side of the string for each character in the string. 
+We are iterating the rest of the character to get two indices , which can form a number which is divisible by 25 If we get a number
+which is divisible by 25 for a given I and J, then it is possible that there must be another pair of I and j for a given I, which can
+also be divisible by 25 and contains less number of characters to delete That's why we are using two for loop. For each i, we are
+iterating for rest of the j .Now, For each pair of I and j , we are Trying to form a number using elements at Index I and J,
+such that they are divisible by 25. And we remove rest of the element between I and J and after J to make the last two position of the number,
+such that the last two position form a number which is divisible by 25 And if the number is divisible by 25 which is present at the last 
+two position of the new number formed after deletion then we are updating the number of elements to be removed in ans variable
+variable In line number 19. If there is only one character in the complete num string, which is zero, it means that to make the number divisivle by
+25 we need to remove all the elements expect that character which is zero. So in that case, the minimum number of operation will be given by
+line 20 using answer variable
+
+
+    int minimumOperations(string num) {
+        int ans = num.size();
+        int n = num.size();
+        for(int i = n-1; i >= 0;i--) {
+            for(int j = i-1; j >= 0; j--) {
+                int last_num = (num[i]-'0') + (num[j]-'0') * 10;
+                if(last_num % 25 == 0) {
+                    ans = min(ans,n-j-2);
+                }
+            }
+            if(num[i] == '0') {
+                ans = min(ans,n-1);
+            }
+        }
+        return ans;
+    }
+};
