@@ -1,0 +1,53 @@
+class Solution {
+public:
+    bool isSafe(int m , int n , int i , int j) {
+        if(i >= 0 && i < m && j >= 0 && j < n) {
+            return true;
+        }
+        return false;
+    }
+    
+        int solve(vector<vector<int>>& grid, int m, int n, int i, int j, vector<vector<int>>& dp) {
+        // Base case: If we reach the bottom-right corner, return 1 (a unique path)
+        if (i == m - 1 && j == n - 1) {
+            dp[i][j] = 1; // Mark the destination as 1 unique path
+            return 1;
+        }
+
+        // Check if the result for this cell is already calculated
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
+        // Initialize counts for right and down movements
+        int rightPaths = 0;
+        int downPaths = 0;
+
+        // Move down
+        if (isSafe(m, n, i + 1, j)) {
+            downPaths = solve(grid, m, n, i + 1, j, dp);
+        }
+
+        // Move right
+        if (isSafe(m, n, i, j + 1)) {
+            rightPaths = solve(grid, m, n, i, j + 1, dp);
+        }
+
+        // Calculate total unique paths from this cell
+        int totalPaths = downPaths + rightPaths;
+
+        // Update the dp array with the calculated result
+        dp[i][j] = totalPaths;
+
+        // Return the number of unique paths from this cell
+        return totalPaths;
+    }
+    
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n,-1));
+        vector<vector<int>> grid(m, vector<int>(n,0));
+
+        int ans = solve(grid,m,n,0,0,dp);
+        return ans;
+    }
+};
