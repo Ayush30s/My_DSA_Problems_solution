@@ -1,0 +1,35 @@
+class Solution
+{
+    public:
+    bool binarySearch(int arr[] , int m, int x) {
+        int start = 0;
+        int end = m-1;
+        int mid = start + (end - start)/2;
+        while(start <= end) {
+            if(arr[mid] == x) return true;
+            else if(arr[mid] > x) end = mid - 1;
+            else start = mid + 1;
+
+            mid =  start + (end - start)/2;
+        }
+        return false;
+    }
+    //Function to search a given number in row-column sorted matrix.
+    bool search(vector<vector<int>> matrix, int n, int m, int x) 
+    {
+        // code here 
+        for(int i = 0; i < n ;i++) {
+            int arr[m] = {0};
+            for(int j =0; j < m ;j++) {
+                arr[j] = matrix[i][j];//coverting each row of the cell to a individual array of length m and applying
+                                        binary serach on it if the element is found in any of row's serach we return 
+                                        true else if after passing through each row we don't get the element any where
+                                        then atlast return false
+                if(binarySearch(arr , m , x)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
