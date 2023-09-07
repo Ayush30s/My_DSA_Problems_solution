@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int dx[8] = {-2, -2, +2, +2, -1, +1, -1, +1};
+    int dy[8] = {-1, +1, -1, +1, +2, +2, -2, -2};
+
+    int minStepToReachTarget(vector<int>& KnightPos, vector<int>& TargetPos, int N) {
+        int startRow = KnightPos[0] - 1;
+        int startCol = KnightPos[1] - 1;
+        int targetRow = TargetPos[0] - 1;
+        int targetCol = TargetPos[1] - 1;
+
+        vector<vector<int>> dp(N, vector<int>(N, -1));
+        dp[startRow][startCol] = 0;
+
+        queue<pair<int, int>> q;
+        q.push({startRow, startCol});
+
+        while (!q.empty()) {
+            auto current = q.front();
+            q.pop();
+            int x = current.first;
+            int y = current.second;
+
+            if (x == targetRow && y == targetCol) {
+                return dp[x][y];
+            }
+
+            for (int i = 0; i < 8; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if (nx >= 0 && nx < N && ny >= 0 && ny < N && dp[nx][ny] == -1) {
+                    dp[nx][ny] = dp[x][y] + 1;
+                    q.push({nx, ny});
+                }
+            }
+        }
+
+        return -1; // If no valid path is found
+    }
+};
