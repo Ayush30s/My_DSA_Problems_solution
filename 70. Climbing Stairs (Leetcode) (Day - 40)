@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void solve(int n, int& count, vector<int>& memo) {
+        if (n == 0) {
+            count += 1;
+            return;
+        }
+        if (n < 0) {
+            return;
+        }
+        
+        if (memo[n] != -1) {
+            count += memo[n]; // Use memoized result
+            return;
+        }
+
+        solve(n - 1, count, memo);
+        solve(n - 2, count, memo);
+        
+        memo[n] = count; // Memoize the result for n stairs
+    }
+    
+    int climbStairs(int n) {
+        vector<int> memo(n + 1, -1); // Initialize memoization array with -1
+        int count = 0;
+        solve(n, count, memo);
+        return count;
+    }
+};
