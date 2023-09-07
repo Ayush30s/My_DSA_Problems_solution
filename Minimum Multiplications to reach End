@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int minimumMultiplications(vector<int>& arr, int start, int end) {
+        // code here
+        if(start == end) return 0;
+        vector<int> dest(100000,1e9);
+        queue<pair<int,int>> qp;
+        qp.push({start,0});
+        dest[start] = 0;
+        
+        while(!qp.empty()) {
+            int steps = qp.front().second;
+            int val = qp.front().first;
+            qp.pop();
+            
+            for(auto it : arr) {
+                int nval = (val * it) % 100000;
+                if(nval == end) return steps + 1;
+                if(dest[nval] > steps + 1) {
+                    dest[nval] = steps + 1;
+                    qp.push({nval,steps+1});
+                }
+            }
+        }
+        return -1;
+    }
+};
