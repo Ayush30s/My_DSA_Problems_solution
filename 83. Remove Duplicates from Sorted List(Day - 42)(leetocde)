@@ -1,0 +1,31 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(head == NULL || head->next == NULL) return head;// We check if the head is null, or there is only single node in the linked list. In that case, we return the
+
+        ListNode* newnode = deleteDuplicates(head->next);// If the head is not null, or there is more than one node in the linked list then we call function delete duplicate
+                                                        // and pass the next->node, which will return us the Rest of the ll by removing all the duplicates in the ll that is
+                                                        // present after head->next
+
+        if(newnode->val == head->val) {// Now, when the base case is reached and the function is returning back in that case, we get a node inside newnode, after which there 
+                                      // is no duplicate element in the newnode And we check if the data at newnode is equal to the data at head is equal Then we return the new node, 
+                                      // skipping the node at head because both have the same values And if they have different values, we append the list whose starting node is newnode
+                                      // to the head->next
+            return newnode;
+        }
+        else {
+            head->next = newnode;
+        }
+        return head;
+    }
+};
