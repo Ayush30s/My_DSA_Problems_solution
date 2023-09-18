@@ -1,0 +1,100 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+//iterative solution--------------------------------------------------------------------------------
+    ListNode* reverse(ListNode* head) {
+        ListNode* prenode = NULL;
+        ListNode* currnode = head;
+
+        while(currnode!= NULL) {
+            ListNode* nextnode = currnode->next;
+            currnode->next = prenode;
+            prenode = currnode;
+            currnode = nextnode;
+        }
+        return prenode;
+    }
+
+    ListNode* middle(ListNode* head) {
+        ListNode* fast = head->next;
+        ListNode* slow = head;
+
+        //finding middle ListNode of the LL 
+        while(fast != NULL) {
+            fast = fast-> next;
+            if(fast != NULL) {
+                fast = fast-> next;
+                slow = slow-> next;
+            }
+        }
+        return slow->next;
+    }
+    bool solve(ListNode* orirginalLL , ListNode* reversedLL) {
+        //base case
+        if(reversedLL == NULL) {
+            return true;
+        }
+        if(orirginalLL->val == reversedLL->val) {
+            return solve(orirginalLL->next,reversedLL->next);
+        }
+        return false;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode* mid = middle(head);
+        ListNode* newnode = reverse(mid);
+        return solve(head,newnode);
+    }
+
+    //recursive solution-----------------------------------------------------------------------------
+    ListNode* reverse(ListNode* head) {
+        ListNode* prenode = NULL;
+        ListNode* currnode = head;
+
+        while(currnode!= NULL) {
+            ListNode* nextnode = currnode->next;
+            currnode->next = prenode;
+            prenode = currnode;
+            currnode = nextnode;
+        }
+        return prenode;
+    }
+
+    ListNode* middle(ListNode* head) {
+        ListNode* fast = head->next;
+        ListNode* slow = head;
+
+        //finding middle ListNode of the LL 
+        while(fast != NULL) {
+            fast = fast-> next;
+            if(fast != NULL) {
+                fast = fast-> next;
+                slow = slow-> next;
+            }
+        }
+        return slow->next;
+    }
+    bool solve(ListNode* orirginalLL , ListNode* reversedLL) {
+        //base case
+        if(reversedLL == NULL) {
+            return true;
+        }
+        if(orirginalLL->val == reversedLL->val) {
+            return solve(orirginalLL->next,reversedLL->next);
+        }
+        return false;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode* mid = middle(head);
+        ListNode* newnode = reverse(mid);
+        return solve(head,newnode);
+    }
+};
