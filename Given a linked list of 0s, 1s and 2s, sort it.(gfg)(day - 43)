@@ -1,0 +1,92 @@
+class Solution
+{
+    public:
+    //Function to sort a linked list of 0s, 1s and 2s.
+    Node* segregate(Node *head) {
+        
+        // Add code here
+         //edge cases
+  if(head == NULL) {
+    cout << "LL is empty!" << endl;
+    return NULL;
+  }else if(head->next == NULL) {
+    return head;
+  }
+
+  Node* zerohead = new Node(-101);
+  Node* zerotail = zerohead;
+
+  Node* onehead = new Node(-101);
+  Node* onetail = onehead;
+
+  Node* twohead = new Node(-101);
+  Node* twotail = twohead;
+
+  Node* curr = head;
+  while(curr != NULL) {
+
+    if(curr->data == 0) {
+      //seperate the curr Node
+      Node* temp = curr;
+      curr = curr->next;
+      temp->next = NULL;
+
+      //append the isolated Node
+      zerotail->next = temp;
+      zerotail = temp;
+    }
+    else if(curr->data == 1) {
+      //seperate the curr Node
+      Node* temp = curr;
+      curr = curr->next;
+      temp->next = NULL;
+
+      //append the isolated Node
+      onetail->next = temp;
+      onetail = temp;
+    }else if(curr->data == 2){
+      //seperate the curr Node
+      Node* temp = curr;
+      curr = curr->next;
+      temp->next = NULL;
+
+      //append the isolated Node
+      twotail->next = temp;
+      twotail = temp;
+    }
+  }
+
+  //modify one wali ll
+  Node* temp = onehead;
+  onehead = onehead->next;
+  temp->next = NULL;
+  delete temp;
+
+  //modify two wali ll
+  temp = twohead;
+  twohead = twohead->next;
+  temp->next = NULL;
+  delete temp;
+
+  //join the three lists
+  if(onehead != NULL) {
+    zerotail->next = onehead;
+    if(twohead != NULL) {
+      onetail->next = twohead;
+    }
+  }else{
+    if(twohead != NULL) {
+      zerotail->next = twohead;
+    }
+  }
+
+  //modify zero wali ll
+  temp = zerohead;
+  zerohead = zerohead->next;
+  temp->next = NULL;
+  delete temp;
+
+  return zerohead;
+        
+    }
+};
