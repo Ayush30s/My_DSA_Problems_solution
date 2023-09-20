@@ -1,0 +1,32 @@
+class Solution
+{
+    public:
+    Node *copyList(Node *head)
+    {
+        Node* clonehead = NULL;
+        Node* clonetail = NULL;
+        
+        Node* temp = head;
+        while(temp != NULL) {
+            if(clonehead == NULL) {
+                clonehead = temp;
+                clonetail = temp;
+            }else{
+                clonetail->next = temp;
+                clonetail = temp;
+            }
+            temp = temp->next;
+        }
+        
+        temp = head;
+        Node* clonetemp = clonehead;
+        while(temp != NULL) {
+            clonetemp->arb = temp->arb;
+            clonetemp = clonetemp->next;
+            temp = temp->next;
+        }
+        
+        return clonehead;
+    }
+
+};
