@@ -1,0 +1,75 @@
+
+class Solution{
+  public:
+    Node* findMid(Node*head) {
+        Node* slow = head;
+        Node* fast = head->next;
+        
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow ->next;
+            fast = fast ->next ->next;
+        }
+        return slow;
+    }
+    
+    Node* merge(Node* left , Node* right) {
+        if(left == NULL) return right;
+        if(right == NULL) return left;
+        
+        Node* ans = new Node(-1);
+        Node* temp = ans;
+        
+        while(left != NULL && right != NULL) {
+            if(left->data < right->data){
+                temp->next = left;
+                temp = left;
+                left = left ->next;
+            }else{
+                temp->next = right;
+                temp= right;
+                right = right ->next;
+            }
+        }
+        
+        while(left != NULL) {
+            temp->next = left;
+            temp = left;
+            left = left->next;
+        }
+        
+        while(right != NULL) {
+            temp->next = right;
+            temp = right;
+            right = right->next;
+        }
+        ans = ans ->next;
+        return ans;
+    }
+    //Function to sort the given linked list using Merge Sort.
+    Node* mergeSort(Node* head) {
+        // your code here
+        
+        //ll conatins only atleast sigle node
+        if(head == NULL || head->next  == NULL) {
+            return head;
+        }
+        
+        //find niddle to split ll into two parts
+        Node* mid = findMid(head);
+        
+        //left part
+        Node* left = head;
+        
+        //right part
+        Node* right = mid->next;
+        mid->next = NULL;
+        
+        //sort left and reight recursively
+        left = mergeSort(left);
+        right = mergeSort(right);
+        
+        //merege both the parts
+        Node* ans = merge(left,right);return ans;
+        
+    }
+};
