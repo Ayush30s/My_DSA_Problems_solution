@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int distinctSubsequences(string s) {
+        int n = s.size();
+        long dp[n + 1] = {0};                                                                          // createe a dp to store the number of subsequences till the given character of the string
+
+        dp[0] = 1;                                                                                     // In the starting there is only a space character(one of the subseqeunce) so we store 1 in the dp
+
+        unordered_map<char, int> mp;                                                                   // to store the index where the current character had previously seen so that we can remove
+                                                                                                       // those subsequences we are agin going to form in the its current occourence that has already 
+                                                                                                       // been created in the previous stored index in the map corresponding to that character 
+        
+        
+        for (char c = 'a'; c <= 'z'; c++) {                                                            // Initialize mp values to -1 : to check the occourence of character (if yes at what index)
+            mp[c] = -1;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            dp[i] = 2 * dp[i - 1];                                                                     // the number subsequence till the current charcater is double the number of subsequences in the till 
+                                                                                                       // the previous charcater bcoz if the current char do not combine with the subsequences at the pre position
+                                                                                                       // than the we have that same nmber of subsequrences at currnt pos and second case when the current char
+                                                                                                       // combines with them itwill creates same as before but new subsequences 
+
+            char ch = s[i - 1];                                                                        // Since we are iterating the string w.r.t dp having size 1 more than the strings so to iterate on a valid index we decrease it by 1
+
+
+            // in the below block of code -                                                            // If the current char have been seen before then till the current char we have accomodated the subsequence we have already formed in
+                                                                                                       // the previous occourence of the current character so we need to take only one occourence of the subsequences of the current charcater
+                                                                                                       // it can be the curr formed subsequence or the previously already formed , we decided to remove the number of previous formed
+                                                                                                       // subsequence of the curr char.
+            if (mp[ch] != -1) {                                                                        
+                int j = mp[ch];
+                dp[i] = (dp[i] - dp[j - 1] + 1000000007) % 1000000007;
+            }
+            mp[ch] = i;                                                                                // if the current char is not seen so far mark it as seen using its index
+        }
+        return dp[s.size()];
+    }
+};
