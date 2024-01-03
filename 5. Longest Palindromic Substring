@@ -1,4 +1,82 @@
+//brute force
+Time complexxity : O(N * N * N)
+Space complexity : O(1)
+
+bool isPalindrome(string ss, int s , int e) {
+    while(s < e) {
+        if(ss[s] != ss[e]) {
+            return false;
+        }
+        s++;
+        e--;
+    }
+    return true;
+}
+string longestPalindrome(string s) {
+    string ans = "";
+    int len = INT_MIN;
+
+    for(int i = 0; i < s.size() ; i++) {
+        for(int j = i; j < s.size() ; j++) {
+            if(isPalindrome(s,i,j)) {
+                if((j-i+1) > len) {
+                    len = (j-i+1);
+                    ans = s.substr(i,(j-i+1));
+                }
+            }
+        }
+    }
+    return ans;
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+//Top down Approch
+Time complexxity : O(N * N)
+Space complexity : O(N * N)
+
+int dp[1001][1001];
+    bool solve(string &s, int i, int j) {
+        //base case
+        if(i >= j) {
+            return true;
+        }
+
+        if(dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
+        if(s[i] == s[j]) {
+            return dp[i][j] = solve(s,i+1,j-1);
+        } 
+
+        return dp[i][j] = false;
+    }
+
+    //using top down dp
+    string longestPalindrome(string s) {
+        memset(dp, -1, sizeof(dp));
+
+        int maxlen = INT_MIN;
+        int N = s.size();
+
+        int idx = 0;
+
+        for(int i = 0; i < N; i++) {
+            for(int j = i; j < N; j++) {
+                if(solve(s, i, j)) {
+                    if(j-i+1 > maxlen) {
+                        idx = i;
+                        maxlen = j-i+1;
+                    }
+                }
+            }
+        }
+        return s.substr(idx,maxlen);
+    }
+---------------------------------------------------------------------------------------------------------------------------------------------------
 //optimized
+Time complexxity : O(N * N)
+Space complexity : O(1)
 
     // calculating the maximum possible palindromic substring thet can be achieved while going to left and to right  from the indeces given
     int MaxPalindromicSubstr(string s, int i , int j) {
@@ -37,35 +115,6 @@
             //check if  the new pal. substring len is greater than the previous one already in the ans then update it
             if(ans.size() < len) {
                 ans = s.substr(i-((len-1)/2),len);
-            }
-        }
-        return ans;
-    }
-
-//brute force
-
-    bool isPalindrome(string ss, int s , int e) {
-        while(s < e) {
-            if(ss[s] != ss[e]) {
-                return false;
-            }
-            s++;
-            e--;
-        }
-        return true;
-    }
-    string longestPalindrome(string s) {
-        string ans = "";
-        int len = INT_MIN;
-
-        for(int i = 0; i < s.size() ; i++) {
-            for(int j = i; j < s.size() ; j++) {
-                if(isPalindrome(s,i,j)) {
-                    if((j-i+1) > len) {
-                        len = (j-i+1);
-                        ans = s.substr(i,(j-i+1));
-                    }
-                }
             }
         }
         return ans;
